@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Crear Nueva Grid</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="p-4">
+<div class="container">
+  <h1 class="mb-4">Crear Nueva Grid</h1>
+
+  {% with msgs = get_flashed_messages(with_categories=true) %}
+    {% if msgs %}
+      {% for cat, msg in msgs %}
+        <div class="alert alert-{{ cat }}">{{ msg }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <form method="post" class="row g-3">
+    <!-- símbolo y tipo -->
+    <div class="col-md-6">
+      <label class="form-label">Símbolo</label>
+      <select class="form-select" name="simbolo" required>
+        {% for s in simbolos %}
+          <option value="{{ s }}">{{ s }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Tipo</label>
+      <select class="form-select" name="tipo">
+        <option value="compra">Long (Buy)</option>
+        <option value="venta">Short (Sell)</option>
+      </select>
+    </div>
+
+    <!-- parámetros principales -->
+    <div class="col-md-4">
+      <label class="form-label">Precio entrada</label>
+      <input class="form-control" name="precio_entrada" required>
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Distancia entre órdenes (USDT)</label>
+      <input class="form-control" name="distancia" required>
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Pasos</label>
+      <input class="form-control" name="pasos" required>
+    </div>
+
+    <!-- capital y riesgo -->
+    <div class="col-md-6">
+      <label class="form-label">Coins totales</label>
+      <input class="form-control" name="coins_total" required>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Pérdida máx (USDT)</label>
+      <input class="form-control" name="monto_a_perder_usdt" required>
+    </div>
+
+    <!-- take-profits -->
+    <div class="col-md-6">
+      <label class="form-label"># Take-Profits</label>
+      <input class="form-control" name="cantidad_tp" value="1" required>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Distancia TP (USDT)</label>
+      <input class="form-control" name="distancia_tp" value="1" required>
+    </div>
+
+    <div class="col-12">
+      <button type="submit" class="btn btn-success">Crear Grid</button>
+      <a href="{{ url_for('index') }}" class="btn btn-link">Cancelar</a>
+    </div>
+  </form>
+</div>
+</body>
+</html>

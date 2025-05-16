@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+  <head><meta charset="utf-8"><title>Create Strategy</title></head>
+  <body>
+    <h1>Create Grid + TP + Stop</h1>
+    {% with msgs = get_flashed_messages(with_categories=true) %}
+      {% if msgs %}
+      <ul>
+        {% for cat,msg in msgs %}
+          <li class="{{cat}}">{{msg}}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="post">
+      <p>
+        <label>Symbol:
+          <select name="symbol" required>
+            {% for s in symbols %}
+            <option>{{s}}</option>
+            {% endfor %}
+          </select>
+        </label>
+      </p>
+      <p>
+        <label>Side:
+          <select name="side">
+            <option value="compra">Buy-Grid</option>
+            <option value="venta">Sell-Grid</option>
+          </select>
+        </label>
+      </p>
+      <p><label>Entry Price: <input name="entry_price" required></label></p>
+      <p><label>Distance per Step: <input name="distancia" required></label></p>
+      <p><label>Grid Steps (pasos): <input name="pasos" required></label></p>
+      <p><label>Total Coins: <input name="total_coins" required></label></p>
+      <p><label>TP Levels (num_tp): <input name="num_tp" required></label></p>
+      <p><label>TP % Distance (tp_pct): <input name="tp_pct" value="1"></label></p>
+      <p><label>Stop-Loss Price: <input name="stop_loss_price" required></label></p>
+      <p><button type="submit">Launch</button></p>
+    </form>
+    <p><a href="{{ url_for('index') }}">« back</a></p>
+  </body>
+</html>

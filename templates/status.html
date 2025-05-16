@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Status de Órdenes</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="p-4">
+  <div class="container">
+    <h1 class="mb-4">Detalle de Grids</h1>
+    <a href="{{ url_for('index') }}" class="btn btn-link mb-3">← Volver</a>
+
+    {% if not estado_ordenes %}
+      <p>No hay grids activas.</p>
+    {% else %}
+      {% for sym, rec in estado_ordenes.items() %}
+        <div class="card mb-3">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <span>{{ sym }}</span>
+            <a href="{{ url_for('cancelar', symbol=sym) }}" class="btn btn-sm btn-danger">Cancelar</a>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Órdenes DCA: {{ rec.grid|length }}</li>
+            <li class="list-group-item">Stop-loss: {{ '✓' if rec.sl else '✗' }}</li>
+            <li class="list-group-item">Take-profits: {{ rec.tp|length }}</li>
+          </ul>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% with msgs = get_flashed_messages(with_categories=true) %}
+      {% if msgs %}
+        {% for cat, msg in msgs %}
+          <div class="alert alert-{{ cat }} mt-3">{{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
+</body>
+</html>
